@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import app from '../firebase'; // Ensure this is the correct Firebase import
 
 const DashboardComponent = () => {
   const [user, setUser] = useState(null);
   const [userName, setUserName] = useState('');
   const [formData, setFormData] = useState(null);
-  const history = useHistory();
+  const history = useNavigate();
 
   useEffect(() => {
     const unsubscribe = app.auth().onAuthStateChanged((user) => {
