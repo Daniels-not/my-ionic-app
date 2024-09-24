@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import app from '../firebase'; // Import Firebase instance
+import { auth } from '../firebase'; // Import the auth instance
 
 const ProfileComponent = () => {
   const [user, setUser] = useState(null);
   const [userName, setUserName] = useState('');
 
   useEffect(() => {
-    const unsubscribe = app.auth().onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setUser(user);
         const email = user.email;

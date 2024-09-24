@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import app from '../firebase'; // Ensure this is the correct Firebase import
+import app from '../firebase'; // Ensure this is the correct Firebase configuration import
 
 const DashboardComponent = () => {
   const [user, setUser] = useState(null);
   const [userName, setUserName] = useState('');
   const [formData, setFormData] = useState(null);
-  const history = useNavigate();
+  const navigate = useNavigate();
+  const auth = getAuth(app); // Get the Firebase authentication instance
 
   useEffect(() => {
-    const unsubscribe = app.auth().onAuthStateChanged((user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
         const email = user.email;
@@ -24,13 +26,13 @@ const DashboardComponent = () => {
     }
 
     return () => unsubscribe();
-  }, []);
+  }, [auth]);
 
   const handleLogout = async () => {
     try {
-      await app.auth().signOut();
+      await signOut(auth); // Use signOut from the Firebase auth module
       localStorage.removeItem('userFormData'); // Optionally clear saved data
-      history.push('/login'); // Redirect to login after logout
+      navigate('/login'); // Redirect to login after logout
     } catch (error) {
       console.error('Logout error:', error);
       // Optionally display an error message to the user
@@ -46,6 +48,7 @@ const DashboardComponent = () => {
             <p className="text-gray-600"><strong>Email:</strong> {user.email}</p>
             <p className="text-gray-600"><strong>Name:</strong> {userName}</p>
           </div>
+          {/* You can uncomment this section when you have the form data */}
           {/* <div className="mb-4">
             <p className="text-gray-600"><strong>Career:</strong> {formData?.career}</p>
             <p className="text-gray-600"><strong>Classes:</strong> {formData?.classes?.join(', ')}</p>
