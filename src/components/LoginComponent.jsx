@@ -70,8 +70,13 @@ const LoginComponent = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 bg-white shadow-md rounded-lg">
+    <div className="flex flex-col items-center justify-center min-h-screen relative">
+
+      <div className="bg-[#95ff8d] w-full h-3/4 skew-y-12 absolute -top-[10rem] left-0 z-0">
+
+      </div>
+
+      <div className="w-full max-w-md p-8 bg-white shadow-md rounded-lg relative z-10">
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
         <form onSubmit={handleLogin} className="space-y-4">
