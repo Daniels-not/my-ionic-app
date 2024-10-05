@@ -6,10 +6,11 @@ import LoginComponent from './components/LoginComponent';
 import SignupComponent from './components/SignupComponent';
 import DashboardComponent from './components/DashboardComponent';
 import ProfileComponent from './components/ProfileComponent';
-
+import NavbarComponent from './components/NavbarComponent';
 const App = () => {
   return (
-    <Router>
+    <Router className='bg-white'>
+      <NavbarComponent />
       <Routes>
         <Route path="/" element={<HomeComponent />} />
         <Route path="/login" element={<LoginComponent />} />
