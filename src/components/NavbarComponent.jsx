@@ -23,9 +23,9 @@ const NavbarComponent = () => {
   }, [auth]);
 
   // If the user is logged in, hide the navbar
-  if (isLoggedIn) {
-    return null;
-  }
+  // if (isLoggedIn) {
+  //   return null;
+  // }
 
   return (
     <nav className="rounded-full bg-white/95 fixed top-4 w-[98%] h-12 left-[1%] z-50 flex items-center justify-center overflow-hidden">
@@ -34,13 +34,13 @@ const NavbarComponent = () => {
           onClick={() => navigate('/downloads')}
           className="text-gray-500/50 font-bold hover:text-[#15800e] hover:scale-110 transition-all duration-300"
         >
-          Downloads
+          Descargas
         </button>
         <button
           onClick={() => navigate('/faq')}
           className="text-gray-500/50 font-bold hover:text-[#15800e] hover:scale-110 transition-all duration-300"
         >
-          FAQ
+          Preguntas
         </button>
       </div>
 
@@ -58,7 +58,7 @@ const NavbarComponent = () => {
             src={user.photoURL}
             alt="User Profile"
             className="w-10 h-10 rounded-full cursor-pointer"
-            onClick={() => navigate('/profile')}
+            onClick={() => navigate('/dashboard')}
           />
         ) : (
           <>

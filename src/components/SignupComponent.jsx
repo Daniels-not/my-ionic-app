@@ -73,10 +73,10 @@ const SignupComponent = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 relative overflow-hidden">
+    <div className="flex flex-col items-center justify-end min-h-screen bg-gray-100 relative mb-4">
 
 
-      <div className="bg-[#95ff8d] w-full h-3/4 -skew-y-12 absolute bottom-[-12rem] left-0 z-0">
+      <div className="bg-[#95ff8d] w-full h-3/4 -skew-y-12 absolute bottom-[-9rem] left-0 z-0">
       </div>
 
       <div className="w-full max-w-md p-8 bg-white shadow-md rounded-lg relative z-10">
