@@ -11,6 +11,7 @@ import DownloadsComponent from './components/DownloadsComponent';
 import FAQComponent from './components/FAQComponent';
 import FooterComponent from './components/subcomponents/FooterComponent';
 import NewBugComponent from './components/NewBugComponent';
+import BarcodeScannerPage from "./pages/BarcodeScannerPage.jsx";
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="/signup" element={<SignupComponent />} />
           <Route path="/dashboard" element={<DashboardComponent />} />
           <Route path="/profile" component={<ProfileComponent />} />
+        <Route path="/barcode-scanner" element={<BarcodeScannerPage />} />
       </Routes>
       <FooterComponent />
     </Router>

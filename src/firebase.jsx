@@ -3,6 +3,9 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDatabase } from "firebase/database"; 
 import { getAuth } from "firebase/auth";
+import firebase from 'firebase/app'; // Adjust the import based on your Firebase SDK version
+import 'firebase/auth'; // If you are using Firebase Authentication
+import 'firebase/database'; // If you are using Firebase Realtime Database
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 

@@ -1,6 +1,6 @@
 // BarcodeScannerPage.jsx
 import React from 'react';
-import BarcodeScanner from './BarcodeScanner';
+import BarcodeScanner from '../components/subcomponents/BarcodeScanner.jsx';
 
 const BarcodeScannerPage = () => {
     const handleScan = (scannedData) => {
