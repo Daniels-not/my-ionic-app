@@ -89,7 +89,7 @@ const DashboardHomeSubComponent = ({ user, userName }) => {
       </section>
 
       {/** QR CODE SECTION */}
-      <section className="mt-8 flex justify-center">
+      {/* <section className="mt-8 flex justify-center">
         <div className="flex flex-col items-center">
           <h3 className="text-xl font-semibold mb-4">Your QR Code:</h3>
           {qrCode ? (
@@ -100,7 +100,7 @@ const DashboardHomeSubComponent = ({ user, userName }) => {
             <p className="text-gray-500">No QR Code available.</p>
           )}
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };

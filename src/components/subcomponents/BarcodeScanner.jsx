@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import firebase from "../../firebase.jsx"
+import { auth } from "../../firebase"; // Use the correct path to firebaseConfig
+import { getIdToken } from "firebase/auth";
+
 const BarcodeScanner = () => {
     const [barcodeId, setBarcodeId] = useState('');
-    const [location, setLocation] = useState(''); // Set this to your desired location
+    const [location, setLocation] = useState('');
 
     const handleScan = async () => {
         if (!barcodeId) {
@@ -13,28 +14,28 @@ const BarcodeScanner = () => {
 
         const data = {
             id: barcodeId,
-            date: new Date().toISOString(), // Current date
-            location: location || 'Default Location', // Default or user-defined location
+            date: new Date().toISOString(),
+            location: location || 'Default Location',
             price: 100
         };
 
-        console.log('Data to send:', data); // Log data to send
+        console.log('Data to send:', data);
 
         try {
-            const user = firebase.auth().currentUser; // Get the current user
+            const user = auth.currentUser; // Access the user via the auth instance
 
             if (user) {
-                const token = await user.getIdToken(); // Get the user's authentication token
+                const token = await getIdToken(user); // Get the user's token
 
                 const response = await fetch(
                     'https://pathfinderedu-dc6d0-default-rtdb.firebaseio.com/trip.json',
                     {
-                        method: 'POST', // Use 'PUT' if you want to update an existing record
+                        method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}` // Include the token in the Authorization header
+                            'Authorization': `Bearer ${token}`
                         },
-                        body: JSON.stringify(data) // Convert the data to JSON format
+                        body: JSON.stringify(data)
                     }
                 );
 
@@ -42,7 +43,7 @@ const BarcodeScanner = () => {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
-                const responseData = await response.json(); // Parse the JSON response
+                const responseData = await response.json();
                 console.log('Data successfully saved:', responseData);
                 alert('Trip information updated successfully!');
             } else {
@@ -54,7 +55,6 @@ const BarcodeScanner = () => {
             alert('Error updating trip information. Please try again.');
         }
     };
-
 
     return (
         <div>
