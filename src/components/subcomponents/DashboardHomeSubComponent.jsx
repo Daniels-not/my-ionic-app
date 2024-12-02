@@ -59,13 +59,13 @@ const DashboardHomeSubComponent = ({ user, userName }) => {
       {/** WELCOMING SECTION  */}
       <section className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold text-left">Welcome, {userName}!</h2>
+          <h2 className="text-2xl font-bold text-left">Welcome, {user?.displayName}!</h2>
           <small className="text-md text-[#15800e]/80 font-semibold">Basic Account</small>
         </div>
 
-        <div className="w-16 h-16 rounded-full overflow-hidden flex justify-center items-center">
+        { /* <div className="w-16 h-16 rounded-full overflow-hidden flex justify-center items-center">
           <img src="/user_images/profile.jpeg" alt="Profile" className="w-full object-cover" />
-        </div>
+        </div> */ }
       </section>
 
       {/** STATISTICS DATA  */}

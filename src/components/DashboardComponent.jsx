@@ -9,6 +9,9 @@ import HomeIcon from "./icons/HomeIcon";
 import LogOutIcon from "./icons/LogOutIcon";
 import DashboardHomeSubComponent from "./subcomponents/DashboardHomeSubComponent";
 import TripsIcon from "./icons/TripsIcon";
+import DashboardCreateTripSubComponent from "./subcomponents/DashboardCreateTripSubComponent.jsx";
+import TripsMadeIcon from "./icons/TripsMadeIcon.jsx";
+import DashboardMyTripsSubComponent from "./subcomponents/DashboardMyTripSubComponent.jsx";
 
 const DashboardComponent = () => {
   const auth = getAuth(app); // Firebase auth
@@ -16,7 +19,8 @@ const DashboardComponent = () => {
 
   const [user, setUser] = useState(null);
   const [userName, setUserName] = useState('');
-  const [userData, setUserData] = useState(null); // To store Realtime Database data
+  const [userData, setUserData] = useState(null);
+  const [dashPage, setDashPage] = React?.useState(1)// To store Realtime Database data
 
   const handleLogout = async () => {
     try {
@@ -30,9 +34,10 @@ const DashboardComponent = () => {
   };
 
   const [links, setLinks] = React.useState([
-    { title: "Home", icon: <HomeIcon /> },
-    { title: "Trips", icon: <TripsIcon /> },
-    { title: "Logout", icon: <LogOutIcon />, func: handleLogout },
+    { title: "Inicio", icon: <HomeIcon /> },
+    { title: "Mis viajes", icon: <TripsIcon /> },
+    { title: "Hacer un viaje", icon: <TripsMadeIcon width={"20"} /> },
+    { title: "Cerrar sesión", icon: <LogOutIcon />, func: handleLogout },
   ]);
 
   useEffect(() => {
@@ -116,6 +121,7 @@ const DashboardComponent = () => {
                     <button
                       key={idx}
                       className="w-full p-2 rounded-md flex justify-start items-center gap-4 text-md font-bold text-white hover:bg-white hover:text-[#15800e] transition-all duration-300"
+                      onClick={() => setDashPage(idx+1)}
                     >
                       {value?.icon} {value.title}
                     </button>
@@ -128,16 +134,21 @@ const DashboardComponent = () => {
       </section>
 
       <section className="w-5/6 h-[85%] mt-11 mr-4 flex flex-col justify-start bg-white rounded-md overflow-auto p-6">
-        <Container user={user} userName={userName} userData={userData} />
+        <Container user={user} userName={userName} userData={userData} dashPage={dashPage} />
       </section>
     </div>
   );
 };
 
-const Container = ({ user, userName, userData }) => {
-  switch (1) { // Assuming 'page' is always 1 for simplicity
+const Container = ({ user, userName, userData, dashPage }) => {
+  console.log(dashPage)
+  switch (dashPage) { // Assuming 'page' is always 1 for simplicity
     case 1:
-      return <DashboardHomeSubComponent user={user} userName={userName} userData={userData} />;
+      return <DashboardHomeSubComponent user={user} userName={userName} userData={userData}  />;
+    case 2:
+      return <DashboardMyTripsSubComponent user={user} userName={userName} userData={userData} />;
+    case 3:
+      return <DashboardCreateTripSubComponent user={user} userName={userName} userData={userData} />;
     default:
       return <DashboardHomeSubComponent user={user} userName={userName} userData={userData} />;
   }
