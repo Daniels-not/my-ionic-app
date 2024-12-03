@@ -59,20 +59,20 @@ const DashboardHomeSubComponent = ({ user, userName }) => {
       {/** WELCOMING SECTION  */}
       <section className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold text-left">Welcome, {userName}!</h2>
-          <small className="text-md text-[#15800e]/80 font-semibold">Basic Account</small>
+          <h2 className="text-2xl font-bold text-left">Bienvenido, {user?.displayName}!</h2>
+          <small className="text-md text-[#15800e]/80 font-semibold">Cuenta básica</small>
         </div>
 
-        <div className="w-16 h-16 rounded-full overflow-hidden flex justify-center items-center">
+        { /* <div className="w-16 h-16 rounded-full overflow-hidden flex justify-center items-center">
           <img src="/user_images/profile.jpeg" alt="Profile" className="w-full object-cover" />
-        </div>
+        </div> */ }
       </section>
 
       {/** STATISTICS DATA  */}
       <section className="flex flex-col justify-between w-full mt-8">
         <div>
-          <h2 className="text-2xl font-bold text-left">Your Statistics:</h2>
-          <small className="text-md text-[#15800e]/80 font-semibold">Overview</small>
+          <h2 className="text-2xl font-bold text-left">Estadísticas:</h2>
+          <small className="text-md text-[#15800e]/80 font-semibold">Resumen</small>
         </div>
 
         <div className="w-full flex flex-row justify-evenly items-center mt-4">
@@ -91,7 +91,7 @@ const DashboardHomeSubComponent = ({ user, userName }) => {
       {/** QR CODE SECTION */}
       {/* <section className="mt-8 flex justify-center">
         <div className="flex flex-col items-center">
-          <h3 className="text-xl font-semibold mb-4">Your QR Code:</h3>
+          <h3 className="text-xl font-semibold mb-4">Tu Código QR:</h3>
           {qrCode ? (
             <div className="bg-white p-4 rounded shadow">
               <QRCode value={qrCode} size={300} />

@@ -9,6 +9,9 @@ import HomeIcon from "./icons/HomeIcon";
 import LogOutIcon from "./icons/LogOutIcon";
 import DashboardHomeSubComponent from "./subcomponents/DashboardHomeSubComponent";
 import TripsIcon from "./icons/TripsIcon";
+import DashboardCreateTripSubComponent from "./subcomponents/DashboardCreateTripSubComponent.jsx";
+import TripsMadeIcon from "./icons/TripsMadeIcon.jsx";
+import DashboardMyTripsSubComponent from "./subcomponents/DashboardMyTripSubComponent.jsx
 import BarcodeScanner from './subcomponents/BarcodeScanner.jsx'; // Import BarcodeScanner
 
 const DashboardComponent = () => {
@@ -18,6 +21,7 @@ const DashboardComponent = () => {
   const [user, setUser] = useState(null);
   const [userName, setUserName] = useState('');
   const [userData, setUserData] = useState(null);
+  const [dashPage, setDashPage] = React?.useState(1)// To store Realtime Database data
   const [scanning, setScanning] = useState(false); // State to toggle scanner
 
   const handleLogout = async () => {
@@ -39,8 +43,7 @@ const DashboardComponent = () => {
 
   const [links, setLinks] = React.useState([
     { title: "Home", icon: <HomeIcon /> },
-    { title: "Book Trip", icon: <HomeIcon />, func: handleBookTripRed },
-    { title: "Trips", icon: <TripsIcon />, func: handleMyTripsRed }, 
+    { title: "Trips", icon: <TripsIcon /> },
     { title: "Logout", icon: <LogOutIcon />, func: handleLogout },
   ]);
 
@@ -113,6 +116,47 @@ const DashboardComponent = () => {
   };
 
   return (
+    <div className="w-full flex justify-between items-center h-[100vh] bg-gray-100 gap-5">
+      <section className="w-1/6 h-[85%] mt-11 ml-4 flex flex-col bg-[#15800e] rounded-md">
+        <div>
+          <img src="/images/logo3.png" alt="Logo" />
+        </div>
+
+        <div className="w-5/6 flex flex-col gap-5 items-center justify-start mx-auto">
+          {
+            links?.length !== 0 && (
+              links.map((value, idx) => {
+                if (value?.func !== undefined) {
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => value?.func()}
+                      className="w-full p-2 rounded-md flex justify-start items-center gap-4 text-md font-bold text-white hover:bg-white hover:text-[#15800e] transition-all duration-300"
+                    >
+                      {value?.icon} {value.title}
+                    </button>
+                  );
+                } else {
+                  return (
+                    <button
+                      key={idx}
+                      className="w-full p-2 rounded-md flex justify-start items-center gap-4 text-md font-bold text-white hover:bg-white hover:text-[#15800e] transition-all duration-300"
+                      onClick={() => setDashPage(idx+1)}
+                    >
+                      {value?.icon} {value.title}
+                    </button>
+                  );
+                }
+              })
+            )
+          }
+        </div>
+      </section>
+
+      <section className="w-5/6 h-[85%] mt-11 mr-4 flex flex-col justify-start bg-white rounded-md overflow-auto p-6">
+        <Container user={user} userName={userName} userData={userData} dashPage={dashPage} />
+      </section>
+    </div>
       <div className="w-full flex justify-between items-center h-[100vh] bg-gray-100 gap-5">
         <section className="w-1/6 h-[85%] mt-11 ml-4 flex flex-col bg-[#15800e] rounded-md">
           <div>
@@ -150,10 +194,17 @@ const DashboardComponent = () => {
   );
 };
 
-const Container = ({ user, userName, userData }) => {
-  switch (1) { // Assuming 'page' is always 1 for simplicity
+const Container = ({ user, userName, userData, dashPage }) => {
+  console.log(dashPage)
+  switch (dashPage) { // Assuming 'page' is always 1 for simplicity
     case 1:
-      return (
+      return <DashboardHomeSubComponent user={user} userName={userName} userData={userData}  />;
+    case 2:
+      return <DashboardMyTripsSubComponent user={user} userName={userName} userData={userData} />;
+    case 3:
+      return <DashboardCreateTripSubComponent user={user} userName={userName} userData={userData} />;
+      
+      { /* return (
           <div>
             <DashboardHomeSubComponent user={user} userName={userName} userData={userData} />
             {userData?.barcode && (
@@ -162,7 +213,8 @@ const Container = ({ user, userName, userData }) => {
                 </div>
             )}
           </div>
-      );
+      ); */}
+
     default:
       return <DashboardHomeSubComponent user={user} userName={userName} userData={userData} />;
   }
