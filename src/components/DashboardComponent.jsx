@@ -30,9 +30,17 @@ const DashboardComponent = () => {
     }
   };
 
+  const handleBookTripRed = () => {
+    navigate('/book-trip');
+  }
+  const handleMyTripsRed = () => {
+    navigate('/my-trips');
+  }
+
   const [links, setLinks] = React.useState([
     { title: "Home", icon: <HomeIcon /> },
-    { title: "Trips", icon: <TripsIcon /> },
+    { title: "Book Trip", icon: <HomeIcon />, func: handleBookTripRed },
+    { title: "Trips", icon: <TripsIcon />, func: handleMyTripsRed }, 
     { title: "Logout", icon: <LogOutIcon />, func: handleLogout },
   ]);
 

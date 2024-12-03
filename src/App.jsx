@@ -11,7 +11,12 @@ import DownloadsComponent from './components/DownloadsComponent';
 import FAQComponent from './components/FAQComponent';
 import FooterComponent from './components/subcomponents/FooterComponent';
 import NewBugComponent from './components/NewBugComponent';
-import BarcodeScannerPage from "./pages/BarcodeScannerPage.jsx";
+import BookTrip from './pages/BookTrip';
+import MyTrips from './pages/MyTrips';
+import PaymentForm from './components/PaymentForm';
+
+
+// import BarcodeScannerPage from "./pages/BarcodeScannerPage.jsx";
 
 const App = () => {
   return (
@@ -27,8 +32,10 @@ const App = () => {
           <Route path="/login" element={<LoginComponent />} />
           <Route path="/signup" element={<SignupComponent />} />
           <Route path="/dashboard" element={<DashboardComponent />} />
-          <Route path="/profile" component={<ProfileComponent />} />
-        <Route path="/barcode-scanner" element={<BarcodeScannerPage />} />
+          <Route path="/book-trip" element={<BookTrip />} />
+          <Route path="/my-trips" element={<MyTrips />} />
+          <Route path="/payment" element={<PaymentForm />} />
+          <Route path="/profile" element={<ProfileComponent />} />
       </Routes>
       <FooterComponent />
     </Router>
