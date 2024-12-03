@@ -7,7 +7,7 @@ const DownloadsComponent = () => {
 
     const [cardsInfo, setCardsInfo] = React.useState([
         {title: "Android", icon: <AndroidIcon />},
-        {title: "Mac", icon: <MacIcon />},
+        {title: "iOS", icon: <MacIcon />},
     ])
 
 
@@ -41,7 +41,7 @@ const Cards = ({ title, Icon  }) => {
     return (
         <div className="w-1/4 h-full flex flex-col justify-evenly items-center mx-5 items-center p-4 bg-white rounded text-[#15800e] shadow-md"> 
             {Icon}
-            <h2 className="font-bold">{title} Platform</h2>
+            <h2 className="font-bold">Plataforma {title}</h2>
             <button className="bg-[#15800e] text-white font-bold py-2 px-6 rounded-full hover:bg-[#0f5f0a] hover:scale-[1.1] transition duration-300">
                 Descargar
             </button>

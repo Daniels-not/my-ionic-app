@@ -68,13 +68,13 @@ const NavbarComponent = () => {
               onClick={() => navigate('/login')}
               className="rounded-full bg-[#15800e] px-4 py-1 font-bold text-white"
             >
-              Log In
+              Iniciar sesión
             </button>
             <button
               onClick={() => navigate('/signup')}
               className="rounded-full border-2 border-[#15800e] px-4 py-1 font-bold text-[#15800e]"
             >
-              Sign Up
+              Registrarse
             </button>
           </>
         )}

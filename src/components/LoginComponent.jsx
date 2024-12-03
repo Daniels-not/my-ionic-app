@@ -77,30 +77,30 @@ const LoginComponent = () => {
       </div>
 
       <div className="w-full max-w-md p-8 bg-white shadow-md rounded-lg relative z-10">
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">Inicio de sesión</h2>
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Correo</label>
             <input
               id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              placeholder="Enter your email"
+              placeholder="Introduce tu correo"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Contraseña</label>
             <input
               id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              placeholder="Enter your password"
+              placeholder="Introduce tu contraseña"
             />
           </div>
 
@@ -108,42 +108,42 @@ const LoginComponent = () => {
             type="submit"
             className="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-200"
           >
-            Sign In
+            Iniciar Sesión
           </button>
         </form>
 
-        <p className="text-center my-4">Or sign in with:</p>
+        <p className="text-center my-4">O inicia sesión con:</p>
 
         <div className="space-y-2">
           <button
             onClick={handleGoogleLogin}
             className="w-full bg-red-500 text-white font-bold py-2 px-4 rounded-md flex items-center justify-center hover:bg-red-600 transition duration-200"
           >
-            <FcGoogle className="mr-2" size={24} /> Sign in with Google
+            <FcGoogle className="mr-2" size={24} /> Google
           </button>
 
           <button
             onClick={handleGithubLogin}
             className="w-full bg-gray-800 text-white font-bold py-2 px-4 rounded-md flex items-center justify-center hover:bg-gray-900 transition duration-200"
           >
-            <FaGithub className="mr-2" size={24} /> Sign in with GitHub
+            <FaGithub className="mr-2" size={24} /> GitHub
           </button>
 
           <button
             onClick={handleMicrosoftLogin}
             className="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-md flex items-center justify-center hover:bg-blue-700 transition duration-200"
           >
-            <FaMicrosoft className="mr-2" size={24} /> Sign in with Microsoft
+            <FaMicrosoft className="mr-2" size={24} /> Microsoft
           </button>
         </div>
 
         <p className="text-center mt-6">
-          Don't have an account?{' '}
+          ¿No tienes cuenta?{' '}
           <button
             onClick={() => navigate('/signup')}
             className="text-indigo-600 hover:underline font-bold"
           >
-            Sign Up
+            Registrate
           </button>
         </p>
       </div>
