@@ -7,17 +7,17 @@ const AppsSubComponent = () => {
 
     const [cardsInfo, setCardsInfo] = React.useState([
         {title: "Android", icon: <AndroidIcon />},
-        {title: "Web App", icon: <WebIcon />},
-        {title: "Mac", icon: <MacIcon />},
+        {title: "Servicio Web", icon: <WebIcon />},
+        {title: "iOS", icon: <MacIcon />},
     ])
 
     return (
         <div className="w-full h-[100vh] flex flex-col justify-evenly items-center overflow-hidden bg-[#95ff8d] gap-4">
             
             <section className="w-full text-center">
-                <h1 className="font-bold text-5xl text-white">Available Apps</h1>
+                <h1 className="font-bold text-5xl text-white">Plataformas disponibles</h1>
                 <p className="text-[#15800e] mt-5">
-                    Get our apps, or use our online service!
+                    ¡Consigue nuestras aplicaciones, o simplemente usa nuestro servicio web!
                 </p>
             </section>
 
@@ -49,7 +49,7 @@ const Cards = ({ title, Icon  }) => {
     return (
         <div className="w-2/4 flex  justify-between mx-5 items-center p-4 bg-white rounded text-[#15800e]"> 
             {Icon}
-            <h2 className="font-bold">{title} Platform</h2>
+            <h2 className="font-bold">{title}</h2>
         </div>
     );
 }

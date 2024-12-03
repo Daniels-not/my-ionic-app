@@ -53,26 +53,28 @@ const NavbarComponent = () => {
 
       {/* BUTTON */}
       <div className="w-1/3 flex items-center justify-end gap-3 mr-4">
-        {user && user.photoURL ? (
-          <img
-            src={user.photoURL}
-            alt="User Profile"
-            className="w-10 h-10 rounded-full cursor-pointer"
-            onClick={() => navigate('/dashboard')}
-          />
-        ) : (
+        {user && user?.photoURL && isLoggedIn ?
+
+                <img
+                  src={user.photoURL}
+                  alt="User Profile"
+                  className="w-10 h-10 rounded-full cursor-pointer"
+                  onClick={() => navigate('/dashboard')}
+                />
+
+         : (
           <>
             <button
               onClick={() => navigate('/login')}
               className="rounded-full bg-[#15800e] px-4 py-1 font-bold text-white"
             >
-              Log In
+              Iniciar sesión
             </button>
             <button
               onClick={() => navigate('/signup')}
               className="rounded-full border-2 border-[#15800e] px-4 py-1 font-bold text-[#15800e]"
             >
-              Sign Up
+              Registrarse
             </button>
           </>
         )}
