@@ -12,7 +12,12 @@ import DownloadsComponent from './components/DownloadsComponent';
 import FAQComponent from './components/FAQComponent';
 import FooterComponent from './components/subcomponents/FooterComponent';
 import NewBugComponent from './components/NewBugComponent';
-import BarcodeScannerPage from "./pages/BarcodeScannerPage.jsx";
+import BookTrip from './pages/BookTrip';
+import MyTrips from './pages/MyTrips';
+import PaymentForm from './components/PaymentForm';
+
+
+// import BarcodeScannerPage from "./pages/BarcodeScannerPage.jsx";
 
 const App = () => {
 
@@ -45,22 +50,13 @@ const App = () => {
           <Route path="/downloads" element={<DownloadsComponent />} />
           <Route path="/faq" element={<FAQComponent />} />
           <Route path="/contact_faq" element={<NewBugComponent />} />
-
-          <Route path="/login" element={
-            !isLoggedIn ? <LoginComponent /> : <Navigate to="/dashboard" replace/>
-          } />
-
-          <Route path="/signup" element={
-            !isLoggedIn ? <SignupComponent /> : <Navigate to="/dashboard" replace/>
-          } />
-
-          <Route path="/dashboard" element={
-            isLoggedIn ? <DashboardComponent /> : <Navigate to="/login" replace/>
-          } />
-            
-            { /* <Route path="/profile" component={<ProfileComponent />} /> */ }
-        <Route path="/barcode-scanner" element={<BarcodeScannerPage />} />
-
+          <Route path="/login" element={<LoginComponent />} />
+          <Route path="/signup" element={<SignupComponent />} />
+          <Route path="/dashboard" element={<DashboardComponent />} />
+          <Route path="/profile" element={<ProfileComponent />} />
+          <Route path="/payment" element={<PaymentForm />} />
+          <Route path="/my-trips" element={<MyTrips />} />
+          <Route path="/book-trip" element={<BookTrip />} />
       </Routes>
       <FooterComponent />
     </Router>
