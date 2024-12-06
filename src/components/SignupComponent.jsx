@@ -122,7 +122,7 @@ const SignupComponent = () => {
 
           <button
             type="submit"
-            className="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-200"
+            className="w-full bg-[#15800e] text-white font-bold py-2 px-4 rounded-md hover:bg-[#15800e]/80 transition duration-200"
           >
             Registrarse
           </button>
@@ -157,7 +157,7 @@ const SignupComponent = () => {
           ¿Ya tienes una cuenta?{' '}
           <button
             onClick={() => navigate('/login')}
-            className="text-blue-600 hover:underline"
+            className="text-[#15800e] hover:underline"
           >
             Iniciar sesión
           </button>

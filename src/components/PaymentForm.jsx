@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import app, { db } from '../firebase';
 
 const PaymentForm = () => {
+
+  const [user, setUser] = React?.useState(null);
+  const [userName, setUserName] = React?.useState(null);
   const [cardNumber, setCardNumber] = useState("");
   const [cardName, setCardName] = useState("");
   const [expiryMonth, setExpiryMonth] = useState("");
@@ -12,8 +17,59 @@ const PaymentForm = () => {
   const location = useLocation();
   const { startLocation, endLocation } = location.state || {};
 
+  React?.useEffect(() => {
+    const auth = getAuth(app);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+        const email = currentUser.email;
+        const nameFromEmail = email?.split('@')[0];
+        setUserName(nameFromEmail);
+
+        // Reference to the user's data in Realtime Database
+        const userRef = ref(db, `users/${currentUser.uid}`);
+
+        // Fetch existing user data
+        get(userRef)
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              // setUserData(snapshot.val());
+            } else {
+              // If user data doesn't exist, create it
+              const qrCodeValue = `https://yourapp.com/user/${currentUser.uid}`; // Customize as needed
+              const defaultData = {
+                name: nameFromEmail,
+                qrCode: qrCodeValue,
+                trip: "",
+                cancerTrip: "",
+                starts: "",
+                createdAt: new Date().toISOString(),
+              };
+              // set(userRef, defaultData);
+              // setUserData(defaultData);
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching user data:", error);
+          });
+
+        // Listen for real-time updates
+        onValue(userRef, (snapshot) => {
+          // if (snapshot.exists()) {
+          //   setUserData(snapshot.val());
+          // }
+        });
+      } else {
+        setUser(null);
+        setUserData(null);
+      }
+    });
+
+  }, [])
+
   const handlePayment = () => {
-    console.log("Started payment    ")
+    // console.log("Started payment    ")
+
     // Validation
     if (
       !cardNumber ||
@@ -22,17 +78,17 @@ const PaymentForm = () => {
       !expiryYear ||
       !securityCode
     ) {
-      setError("All fields are required");
+      setError("Todos los campos son requeridos");
       return;
     }
 
     if (!/^\d{16}$/.test(cardNumber)) {
-      setError("Card number must be 16 digits");
+      setError("El número de la tarjeta debe de ser 16 dígitos");
       return;
     }
 
     if (!/^\d{3}$/.test(securityCode)) {
-      setError("Security code must be 3 digits");
+      setError("El código de seguridad debe de ser de 3 dígitos");
       return;
     }
 
@@ -41,7 +97,6 @@ const PaymentForm = () => {
     localStorage.setItem("lastFourDigits", lastFourDigits);
 
     // Save trip history in local storage
-    const userName = "ramycampusano44"; // Replace with dynamic user retrieval logic
     const purchaseDate = new Date().toISOString();
 
     const transaction = {
@@ -55,8 +110,8 @@ const PaymentForm = () => {
     localStorage.setItem("tripHistory", JSON.stringify([...tripHistory, transaction]));
 
     // Success message and redirection
-    alert("Payment successful!");
-    navigate("/my-trips");
+    alert("¡El pago fue hecho exitosamente!");
+    navigate("/dashboard");
   };
 
   return (
@@ -68,7 +123,7 @@ const PaymentForm = () => {
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
           <div>
-            <label className="block text-sm font-medium mb-1">Name on Card</label>
+            <label className="block text-sm font-medium mb-1">Nombre en la tarjeta</label>
             <input
               type="text"
               value={cardName}
@@ -79,7 +134,7 @@ const PaymentForm = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Card Number</label>
+            <label className="block text-sm font-medium mb-1">Número de la tarjeta</label>
             <input
               type="text"
               value={cardNumber}
@@ -91,7 +146,7 @@ const PaymentForm = () => {
 
           <div className="flex space-x-4">
             <div>
-              <label className="block text-sm font-medium mb-1">Expiry Month</label>
+              <label className="block text-sm font-medium mb-1">Mes de expiración</label>
               <select
                 value={expiryMonth}
                 onChange={(e) => setExpiryMonth(e.target.value)}
@@ -107,7 +162,7 @@ const PaymentForm = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Expiry Year</label>
+              <label className="block text-sm font-medium mb-1">Año de expiración</label>
               <select
                 value={expiryYear}
                 onChange={(e) => setExpiryYear(e.target.value)}
@@ -124,7 +179,7 @@ const PaymentForm = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Security Code</label>
+            <label className="block text-sm font-medium mb-1">Código de seguridad</label>
             <input
               type="text"
               value={securityCode}
@@ -136,9 +191,9 @@ const PaymentForm = () => {
 
           <button
             onClick={handlePayment}
-            className="w-full bg-indigo-500 text-white rounded px-4 py-2 hover:bg-indigo-600 focus:ring-2 focus:ring-indigo-400"
+            className="w-full bg-[#15800e] text-white rounded px-4 py-2 hover:bg-[#15800e]/80 focus:ring-2 focus:ring-indigo-400"
           >
-            Pay Now
+            ¡Paga ahora!
           </button>
         </div>
       </div>

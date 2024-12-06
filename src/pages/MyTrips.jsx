@@ -69,25 +69,32 @@ const TripHistory = () => {
       const canceledTrips = parseInt(localStorage.getItem("canceledTrips")) || 0;
       localStorage.setItem("canceledTrips", canceledTrips + 1);
 
-      alert("Trip canceled successfully.");
+      alert("¡Viaje cancelado satisfactoriamente!");
     }
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6 text-center">Trip History</h1>
+    <div className="p-6 w-full mx-auto">
+      <div className="mb-5">
+          <h2 className="text-2xl font-bold text-left">
+            Historial de viaje
+          </h2>
+          <small className="text-md text-[#15800e]/80 font-semibold">
+            Cuenta básica
+          </small>
+        </div>
       {tripHistory.length === 0 ? (
-        <p className="text-center text-gray-500">No trips found.</p>
+        <p className="text-center text-gray-500">No hay ningún viaje</p>
       ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
             <thead>
               <tr className="bg-gray-200 text-gray-700">
-                <th className="border px-4 py-2">User Name</th>
-                <th className="border px-4 py-2">Purchase Date</th>
-                <th className="border px-4 py-2">Start Location</th>
-                <th className="border px-4 py-2">End Location</th>
-                <th className="border px-4 py-2">Actions</th>
+                <th className="border px-4 py-2">Nombre de usuario</th>
+                <th className="border px-4 py-2">Fecha de compra</th>
+                <th className="border px-4 py-2">Origen</th>
+                <th className="border px-4 py-2">Destino</th>
+                <th className="border px-4 py-2"></th>
               </tr>
             </thead>
             <tbody>
@@ -102,15 +109,15 @@ const TripHistory = () => {
                   <td className="border px-4 py-2 text-center">
                     <button
                       onClick={() => generatePDFReceipt(trip)}
-                      className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 mr-2"
+                      className="bg-[#15800e] text-white px-4 py-2 rounded hover:bg-[#15800e]/80 transition duration-300 mr-2"
                     >
-                      Receipt
+                      Factura
                     </button>
                     <button
                       onClick={() => handleCancelTrip(index)}
                       className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300"
                     >
-                      Cancel
+                      Cancelar
                     </button>
                   </td>
                 </tr>

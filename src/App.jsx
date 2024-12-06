@@ -55,7 +55,7 @@ const App = () => {
           <Route path="/dashboard" element={<DashboardComponent />} />
           <Route path="/profile" element={<ProfileComponent />} />
           <Route path="/payment" element={<PaymentForm />} />
-          <Route path="/my-trips" element={<MyTrips />} />
+          {/* <Route path="/my-trips" element={<MyTrips />} /> */}
           <Route path="/book-trip" element={<BookTrip />} />
       </Routes>
       <FooterComponent />

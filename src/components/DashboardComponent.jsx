@@ -13,8 +13,11 @@ import TripsIcon from "./icons/TripsIcon";
 import DashboardCreateTripSubComponent from "./subcomponents/DashboardCreateTripSubComponent.jsx";
 import TripsMadeIcon from "./icons/TripsMadeIcon.jsx";
 import DashboardMyTripsSubComponent from "./subcomponents/DashboardMyTripSubComponent.jsx";
-import DashboardMyTripsSubComponent from "./subcomponents/DashboardMyTripSubComponent.jsx"
 import BarcodeScanner from './subcomponents/BarcodeScanner.jsx'; // Import BarcodeScanner
+import MyTrips from '../pages/MyTrips';
+import BookTrip from '../pages/BookTrip.jsx';
+import ProfileComponent from "../components/ProfileComponent.jsx"
+import ProfileIcon from "../components/icons/ProfileIcon.jsx"
 
 
 const DashboardComponent = () => {
@@ -45,10 +48,11 @@ const DashboardComponent = () => {
   }
 
   const [links, setLinks] = React.useState([
-    { title: "Home", icon: <HomeIcon />, func: handleLogout},
-    { title: "Book a Trip", icon: <BookIcon />, func: handleBookTripRed},
-    { title: "Trips", icon: <TripsIcon />, func: handleMyTripsRed},
-    { title: "Logout", icon: <LogOutIcon />, func: handleLogout },
+    { title: "Principal", icon: <HomeIcon />},
+    { title: "Agendar viaje", icon: <BookIcon /> /* func: handleBookTripRed */},
+    { title: "Viajes", icon: <TripsIcon /> /* func: handleMyTripsRed */},
+    { title: "Perfil", icon: <ProfileIcon /> /* func: handleMyTripsRed */},
+    { title: "Cerrar sesión", icon: <LogOutIcon />, func: handleLogout },
   ]);
 
   useEffect(() => {
@@ -149,6 +153,7 @@ const DashboardComponent = () => {
         <Container user={user} userName={userName} userData={userData} dashPage={dashPage} />
       </section>
     </div>
+  )
 
   // const handleOpenScanner = () => {
   //   window.open('/barcode-scanner', '_blank'); // Opens BarcodeScannerPage in a new tab
@@ -225,9 +230,14 @@ const Container = ({ user, userName, userData, dashPage }) => {
     case 1:
       return <DashboardHomeSubComponent user={user} userName={userName} userData={userData}  />;
     case 2:
-      return <DashboardMyTripsSubComponent user={user} userName={userName} userData={userData} />;
+      // return <DashboardMyTripsSubComponent user={user} userName={userName} userData={userData} />;
+      return <BookTrip />
     case 3:
-      return <DashboardCreateTripSubComponent user={user} userName={userName} userData={userData} />;
+      // return <DashboardCreateTripSubComponent user={user} userName={userName} userData={userData} />;
+      return <MyTrips />
+    case 4:
+      // return <DashboardCreateTripSubComponent user={user} userName={userName} userData={userData} />;
+      return <ProfileComponent />
     default:
       return <DashboardHomeSubComponent user={user} userName={userName} userData={userData} />;
   }

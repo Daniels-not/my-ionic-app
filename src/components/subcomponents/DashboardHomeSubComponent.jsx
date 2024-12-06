@@ -55,11 +55,11 @@ const DashboardHomeSubComponent = ({ user, userName }) => {
   }, [user]);
 
   const data = [
-    { value: statistics.stars, title: "Stars", icon: <StarIcon /> },
-    { value: statistics.trips, title: "Trips", icon: <TripsMadeIcon /> },
+    { value: statistics.stars, title: "Estrellas", icon: <StarIcon /> },
+    { value: statistics.trips, title: "Viajes", icon: <TripsMadeIcon /> },
     {
       value: statistics.canceledTrips,
-      title: "Canceled Trips",
+      title: "Viajes cancelados",
       icon: <CanceledTripIcon />,
     },
   ];
