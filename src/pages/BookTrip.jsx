@@ -3,46 +3,121 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const BookTrip = () => {
-  const [locations, setLocations] = useState([]);
+  const [regions, setRegions] = useState([]);
   const [startLocation, setStartLocation] = useState('');
   const [endLocation, setEndLocation] = useState('');
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchLocations = async () => {
+    const fetchRegions = async () => {
       try {
-        const response = await axios.get('https://restcountries.com/v3.1/all');
-        const countryNames = response.data.map((country) => country.name.common);
-        setLocations(countryNames.sort());
+        // Fetch country details
+        const response = await axios.get('https://api.first.org/data/v1/countries');
+        const countryData = response.data[0]; // Assuming only one result is returned for "Dominican Republic"
+        
+        if (countryData && countryData.subdivisions) {
+          // Set the subdivisions (regions) if available
+          const regionNames = countryData.subdivisions.map((region) => region.name);
+          setRegions(regionNames.sort());
+        } else {
+          // Fallback if API lacks detailed subdivisions
+          const fallbackRegions = [
+            'Distrito Nacional',
+            'Santo Domingo',
+            'Santiago',
+            'San Cristóbal',
+            'La Vega',
+            'Puerto Plata',
+            'La Romana',
+            'San Pedro de Macorís',
+            'Duarte',
+            'Espaillat',
+            'Azua',
+            'Barahona',
+            'Monte Cristi',
+            'Peravia',
+            'San Juan',
+            'Hato Mayor',
+            'El Seibo',
+            'Sánchez Ramírez',
+            'Monseñor Nouel',
+            'Baoruco',
+            'Dajabón',
+            'Elías Piña',
+            'Hermanas Mirabal',
+            'Independencia',
+            'La Altagracia',
+            'María Trinidad Sánchez',
+            'Monte Plata',
+            'Pedernales',
+            'Samaná',
+            'Santiago Rodríguez',
+            'Valverde'
+          ];
+          setRegions(fallbackRegions);
+        }
       } catch (err) {
-        console.error('Error fetching locations:', err);
-        setError('Unable to fetch country names. Please try again later.');
+        console.error('Error fetching regions:', err);
+        setError('Unable to fetch regions. Please try again later.');
+        // Fallback to static regions in case of error
+        setRegions([
+          'Distrito Nacional',
+          'Santo Domingo',
+          'Santiago',
+          'San Cristóbal',
+          'La Vega',
+          'Puerto Plata',
+          'La Romana',
+          'San Pedro de Macorís',
+          'Duarte',
+          'Espaillat',
+          'Azua',
+          'Barahona',
+          'Monte Cristi',
+          'Peravia',
+          'San Juan',
+          'Hato Mayor',
+          'El Seibo',
+          'Sánchez Ramírez',
+          'Monseñor Nouel',
+          'Baoruco',
+          'Dajabón',
+          'Elías Piña',
+          'Hermanas Mirabal',
+          'Independencia',
+          'La Altagracia',
+          'María Trinidad Sánchez',
+          'Monte Plata',
+          'Pedernales',
+          'Samaná',
+          'Santiago Rodríguez',
+          'Valverde'
+        ]);
       }
     };
 
-    fetchLocations();
+    fetchRegions();
   }, []);
 
   const handleNext = () => {
     if (!startLocation || !endLocation) {
-      navigate('/payment');
-      return;
+      return alert('Please select both a start and destination location.');
     }
 
     navigate('/payment', { state: { startLocation, endLocation } });
   };
 
-  if (error) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <div className="text-center">
-          <h1 className="text-2xl font-semibold text-red-600">Error</h1>
-          <p className="text-gray-700">{error}</p>
-        </div>
-      </div>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <div className="flex items-center justify-center min-h-screen bg-gray-100">
+  //       <div className="text-center">
+  //         <h1 className="text-2xl font-semibold text-red-600">Error</h1>
+  //         <p className="text-gray-700">{error}</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
@@ -56,9 +131,9 @@ const BookTrip = () => {
             className="w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
           >
             <option value="">Select Start Location</option>
-            {locations.map((location, index) => (
-              <option key={index} value={location}>
-                {location}
+            {regions.map((region, index) => (
+              <option key={index} value={region}>
+                {region}
               </option>
             ))}
           </select>
@@ -71,9 +146,9 @@ const BookTrip = () => {
             className="w-full px-3 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring focus:ring-blue-300"
           >
             <option value="">Select Destination</option>
-            {locations.map((location, index) => (
-              <option key={index} value={location}>
-                {location}
+            {regions.map((region, index) => (
+              <option key={index} value={region}>
+                {region}
               </option>
             ))}
           </select>

@@ -53,8 +53,10 @@ const App = () => {
           <Route path="/login" element={<LoginComponent />} />
           <Route path="/signup" element={<SignupComponent />} />
           <Route path="/dashboard" element={<DashboardComponent />} />
-          <Route path="/profile" component={<ProfileComponent />} />
-        <Route path="/barcode-scanner" element={<BarcodeScannerPage />} />
+          <Route path="/profile" element={<ProfileComponent />} />
+          <Route path="/payment" element={<PaymentForm />} />
+          <Route path="/my-trips" element={<MyTrips />} />
+          <Route path="/book-trip" element={<BookTrip />} />
       </Routes>
       <FooterComponent />
     </Router>
