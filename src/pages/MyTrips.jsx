@@ -22,12 +22,13 @@ const TripHistory = () => {
 
     return () => unsubscribe();
   }, [auth]);
+
   const generatePDFReceipt = (trip) => {
     if (!user) {
       alert("User not authenticated.");
       return;
     }
-  
+
     const doc = new jsPDF();
     
     // Título de la factura (centrado)
@@ -36,7 +37,7 @@ const TripHistory = () => {
     const titleWidth = doc.getStringUnitWidth(title) * doc.internal.getFontSize() / doc.internal.scaleFactor;
     const titleX = (doc.internal.pageSize.width - titleWidth) / 2; // Centrar título horizontalmente
     doc.text(title, titleX, 20);  // Título centrado en la parte superior
-  
+
     // Detalles del viaje (centrados)
     doc.setFontSize(12);
     const lineHeight = 10;
@@ -45,13 +46,13 @@ const TripHistory = () => {
     
     // Definir detalles de la factura
     const details = [
-      `Nombre de usuario: ${trip.userName}`,
       `Fecha de compra: ${new Date(trip.purchaseDate).toLocaleString()}`,
       `Ubicación de origen: ${trip.startLocation}`,
       `Ubicación de destino: ${trip.endLocation}`,
-      `Duración del viaje: Por definir`,
-      `Total a pagar: $50`,  // Precio fijo
-      `Método de pago: Tarjeta`
+      `Duración del viaje: ${trip.duration || "Por definir"}`,  // Duración del viaje
+      `Total a pagar: $${trip.totalAmount || "50"}`,  // Precio fijo o dinámico
+      `Método de pago: ${trip.paymentMethod || "Tarjeta"}`,
+      `Número de tarjeta: **** **** **** ${trip.cardNumber || "No disponible"}`,  // Datos de la tarjet
     ];
     
     // Agregar los detalles al PDF
@@ -61,7 +62,7 @@ const TripHistory = () => {
       doc.text(detail, detailX, offsetY);
       offsetY += lineHeight; // Mover hacia abajo para la siguiente línea
     });
-  
+
     // Generación de código de barras
     const canvas = document.createElement("canvas");
     JsBarcode(canvas, user.uid, {
@@ -70,18 +71,16 @@ const TripHistory = () => {
       fontSize: 14,
     });
     const barcodeImg = canvas.toDataURL("image/png");
-  
+
     // Agregar el código de barras al PDF (centrado)
     const barcodeWidth = 100;  // Ancho del código de barras
     const barcodeX = (doc.internal.pageSize.width - barcodeWidth) / 2;  // Centrar el código de barras horizontalmente
     doc.addImage(barcodeImg, "PNG", barcodeX, offsetY + 10, barcodeWidth, 30, undefined, 'FAST');
-  
+
     // Guardar el PDF
     doc.save(`TripReceipt-${trip.purchaseDate}.pdf`);
   };
-  
-  
-  
+
   const handleCancelTrip = (index) => {
     if (window.confirm("¿Estás seguro de que deseas cancelar este viaje?")) {
       const updatedTrips = [...tripHistory];
@@ -89,7 +88,7 @@ const TripHistory = () => {
       setTripHistory(updatedTrips);
       localStorage.setItem("tripHistory", JSON.stringify(updatedTrips));
 
-      // Increment the canceled trips count
+      // Incrementar el contador de viajes cancelados
       const canceledTrips = parseInt(localStorage.getItem("canceledTrips")) || 0;
       localStorage.setItem("canceledTrips", canceledTrips + 1);
 
@@ -100,13 +99,13 @@ const TripHistory = () => {
   return (
     <div className="p-6 w-full mx-auto">
       <div className="mb-5">
-          <h2 className="text-2xl font-bold text-left">
-            Historial de viaje
-          </h2>
-          <small className="text-md text-[#15800e]/80 font-semibold">
-            Cuenta básica
-          </small>
-        </div>
+        <h2 className="text-2xl font-bold text-left">
+          Historial de viaje
+        </h2>
+        <small className="text-md text-[#15800e]/80 font-semibold">
+          Cuenta básica
+        </small>
+      </div>
       {tripHistory.length === 0 ? (
         <p className="text-center text-gray-500">No hay ningún viaje</p>
       ) : (
@@ -114,22 +113,24 @@ const TripHistory = () => {
           <table className="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
             <thead>
               <tr className="bg-gray-200 text-gray-700">
-                <th className="border px-4 py-2">Nombre de usuario</th>
                 <th className="border px-4 py-2">Fecha de compra</th>
                 <th className="border px-4 py-2">Origen</th>
                 <th className="border px-4 py-2">Destino</th>
+                <th className="border px-4 py-2">Duración</th>
+                <th className="border px-4 py-2">Total</th>
                 <th className="border px-4 py-2"></th>
               </tr>
             </thead>
             <tbody>
               {tripHistory.map((trip, index) => (
                 <tr key={index} className="odd:bg-white even:bg-gray-50">
-                  <td className="border px-4 py-2 text-center">{trip.userName}</td>
                   <td className="border px-4 py-2 text-center">
                     {new Date(trip.purchaseDate).toLocaleString()}
                   </td>
                   <td className="border px-4 py-2 text-center">{trip.startLocation}</td>
                   <td className="border px-4 py-2 text-center">{trip.endLocation}</td>
+                  <td className="border px-4 py-2 text-center">{trip.duration || "Por definir"}</td>
+                  <td className="border px-4 py-2 text-center">{`$${trip.totalAmount || "50"}`}</td>
                   <td className="border px-4 py-2 text-center">
                     <button
                       onClick={() => generatePDFReceipt(trip)}

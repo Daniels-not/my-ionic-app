@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import app, { db } from '../firebase';
 
 const PaymentForm = () => {
@@ -15,7 +15,7 @@ const PaymentForm = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-  const { startLocation, endLocation } = location.state || {};
+  const { startLocation, endLocation, tripDate, tripTime } = location.state || {};
 
   React?.useEffect(() => {
     const auth = getAuth(app);
@@ -25,51 +25,15 @@ const PaymentForm = () => {
         const email = currentUser.email;
         const nameFromEmail = email?.split('@')[0];
         setUserName(nameFromEmail);
-
-        // Reference to the user's data in Realtime Database
-        const userRef = ref(db, `users/${currentUser.uid}`);
-
-        // Fetch existing user data
-        get(userRef)
-          .then((snapshot) => {
-            if (snapshot.exists()) {
-              // setUserData(snapshot.val());
-            } else {
-              // If user data doesn't exist, create it
-              const qrCodeValue = `https://yourapp.com/user/${currentUser.uid}`; // Customize as needed
-              const defaultData = {
-                name: nameFromEmail,
-                qrCode: qrCodeValue,
-                trip: "",
-                cancerTrip: "",
-                starts: "",
-                createdAt: new Date().toISOString(),
-              };
-              // set(userRef, defaultData);
-              // setUserData(defaultData);
-            }
-          })
-          .catch((error) => {
-            console.error("Error fetching user data:", error);
-          });
-
-        // Listen for real-time updates
-        onValue(userRef, (snapshot) => {
-          // if (snapshot.exists()) {
-          //   setUserData(snapshot.val());
-          // }
-        });
       } else {
         setUser(null);
-        setUserData(null);
+        setUserName(null);
       }
     });
 
   }, [])
 
   const handlePayment = () => {
-    // console.log("Started payment    ")
-
     // Validation
     if (
       !cardNumber ||
@@ -94,16 +58,20 @@ const PaymentForm = () => {
 
     // Save last 4 digits of card number in local storage
     const lastFourDigits = cardNumber.slice(-4);
-    localStorage.setItem("lastFourDigits", lastFourDigits);
 
     // Save trip history in local storage
     const purchaseDate = new Date().toISOString();
 
+    // Save the trip details
     const transaction = {
       userName,
       purchaseDate,
+      tripDate,
+      tripTime,
+      duration: "1h 30m", // Estimated trip duration
       startLocation,
       endLocation,
+      cardNumber: lastFourDigits
     };
 
     const tripHistory = JSON.parse(localStorage.getItem("tripHistory")) || [];
