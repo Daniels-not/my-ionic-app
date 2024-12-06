@@ -12,6 +12,7 @@ import DownloadsComponent from './components/DownloadsComponent';
 import FAQComponent from './components/FAQComponent';
 import FooterComponent from './components/subcomponents/FooterComponent';
 import NewBugComponent from './components/NewBugComponent';
+import BarcodeScannerPage from "./pages/BarcodeScannerPage.jsx";
 
 const App = () => {
 
@@ -56,7 +57,9 @@ const App = () => {
           <Route path="/dashboard" element={
             isLoggedIn ? <DashboardComponent /> : <Navigate to="/login" replace/>
           } />
-
+            
+            { /* <Route path="/profile" component={<ProfileComponent />} /> */ }
+        <Route path="/barcode-scanner" element={<BarcodeScannerPage />} />
 
       </Routes>
       <FooterComponent />
