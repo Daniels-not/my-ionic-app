@@ -22,27 +22,47 @@ const TripHistory = () => {
 
     return () => unsubscribe();
   }, [auth]);
-
   const generatePDFReceipt = (trip) => {
     if (!user) {
       alert("User not authenticated.");
       return;
     }
-
+  
     const doc = new jsPDF();
-
-    // Add title
+    
+    // Título de la factura (centrado)
     doc.setFontSize(18);
-    doc.text("Trip Receipt", 105, 20, null, null, "center");
-
-    // Add trip details
+    const title = "Factura";
+    const titleWidth = doc.getStringUnitWidth(title) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+    const titleX = (doc.internal.pageSize.width - titleWidth) / 2; // Centrar título horizontalmente
+    doc.text(title, titleX, 20);  // Título centrado en la parte superior
+  
+    // Detalles del viaje (centrados)
     doc.setFontSize(12);
-    doc.text(`User Name: ${trip.userName}`, 10, 40);
-    doc.text(`Purchase Date: ${new Date(trip.purchaseDate).toLocaleString()}`, 10, 50);
-    doc.text(`Start Location: ${trip.startLocation}`, 10, 60);
-    doc.text(`End Location: ${trip.endLocation}`, 10, 70);
-
-    // Generate barcode
+    const lineHeight = 10;
+    const offsetX = doc.internal.pageSize.width / 2; // Comienza centrado horizontalmente
+    let offsetY = 40; // Posición Y inicial para los detalles
+    
+    // Definir detalles de la factura
+    const details = [
+      `Nombre de usuario: ${trip.userName}`,
+      `Fecha de compra: ${new Date(trip.purchaseDate).toLocaleString()}`,
+      `Ubicación de origen: ${trip.startLocation}`,
+      `Ubicación de destino: ${trip.endLocation}`,
+      `Duración del viaje: Por definir`,
+      `Total a pagar: $50`,  // Precio fijo
+      `Método de pago: Tarjeta`
+    ];
+    
+    // Agregar los detalles al PDF
+    details.forEach(detail => {
+      const detailWidth = doc.getStringUnitWidth(detail) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+      const detailX = (doc.internal.pageSize.width - detailWidth) / 2; // Centrar texto horizontalmente
+      doc.text(detail, detailX, offsetY);
+      offsetY += lineHeight; // Mover hacia abajo para la siguiente línea
+    });
+  
+    // Generación de código de barras
     const canvas = document.createElement("canvas");
     JsBarcode(canvas, user.uid, {
       format: "CODE128",
@@ -50,16 +70,20 @@ const TripHistory = () => {
       fontSize: 14,
     });
     const barcodeImg = canvas.toDataURL("image/png");
-
-    // Add barcode to PDF
-    doc.addImage(barcodeImg, "PNG", 10, 80, 100, 30);
-
-    // Save the PDF
+  
+    // Agregar el código de barras al PDF (centrado)
+    const barcodeWidth = 100;  // Ancho del código de barras
+    const barcodeX = (doc.internal.pageSize.width - barcodeWidth) / 2;  // Centrar el código de barras horizontalmente
+    doc.addImage(barcodeImg, "PNG", barcodeX, offsetY + 10, barcodeWidth, 30, undefined, 'FAST');
+  
+    // Guardar el PDF
     doc.save(`TripReceipt-${trip.purchaseDate}.pdf`);
   };
-
+  
+  
+  
   const handleCancelTrip = (index) => {
-    if (window.confirm("Are you sure you want to cancel this trip?")) {
+    if (window.confirm("¿Estás seguro de que deseas cancelar este viaje?")) {
       const updatedTrips = [...tripHistory];
       updatedTrips.splice(index, 1);
       setTripHistory(updatedTrips);

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { getAuth } from 'firebase/auth'; // Import Firebase authentication
+import JsBarcode from 'jsbarcode'; // Import JsBarcode for barcode generation
 
 const ProfileComponent = () => {
   const [user, setUser] = useState(null);
   const [userName, setUserName] = useState('');
+  const [userData, setUserData] = useState(null); // Added userData to store user information
   const auth = getAuth(); // Firebase auth instance
 
   useEffect(() => {
@@ -13,6 +15,11 @@ const ProfileComponent = () => {
         const email = user.email;
         const nameFromEmail = email?.split('@')[0]; // Generate name based on the email prefix
         setUserName(nameFromEmail);
+
+        // For example, setting a barcode from user UID or any unique identifier
+        setUserData({
+          barcode: user.uid, // Using UID as the barcode value (you can change this logic)
+        });
       }
     });
 
@@ -56,11 +63,30 @@ const ProfileComponent = () => {
               </h2>
             </section>
 
-            {/* <p>Other information: {/* Add additional info here </p>*/}
+            {/* Barcode Generation Section */}
+            {userData?.barcode && (
+              <div className="flex justify-center items-center h-full w-full mt-5">
+                <svg
+                  id="barcode"
+                  ref={(node) => {
+                    if (node) {
+                      JsBarcode(node, userData.barcode, {
+                        format: 'CODE128',
+                        displayValue: true,
+                        fontSize: 18,
+                        height: 50,
+                      });
+                    }
+                  }}
+                  style={{ width: 'auto', height: 'auto' }} // Optional styling for centering
+                ></svg>
+              </div>
+            )}
           </div>
-
-          <div className="w-3/4 flex flex-col justify-center items-center bg-[#15800e] rounded">
-            <h1 className="text-3xl text-white font-semibold">Todavía no está terminado... muy pronto</h1>
+          <div className="w-full sm:w-3/4 flex flex-col justify-center items-center bg-[#15800e] rounded p-6 mt-6">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl text-white font-semibold text-center">
+              Todavía no está terminado... muy pronto
+            </h1>
           </div>
         </section>
       ) : (

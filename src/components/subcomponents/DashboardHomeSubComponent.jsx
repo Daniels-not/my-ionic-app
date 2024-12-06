@@ -5,6 +5,7 @@ import { db } from "../../firebase";
 import StarIcon from "../icons/StarIcon";
 import CanceledTripIcon from "../icons/CanceledTripIcon";
 import TripsMadeIcon from "../icons/TripsMadeIcon";
+import Swal from 'sweetalert2';
 
 const DashboardHomeSubComponent = ({ user, userName }) => {
   const [statistics, setStatistics] = useState({
@@ -37,6 +38,20 @@ const DashboardHomeSubComponent = ({ user, userName }) => {
             });
 
             setQrCode(data.qrCode || "");
+
+            // Check if it's the user's first login and show the alert
+            const firstLogin = localStorage.getItem("firstLogin");
+            if (!firstLogin) {
+              Swal.fire({
+                title: '¡Bienvenido!',
+                text: 'Por la apertura de la app, todos los viajes son a 50 pesos.',
+                icon: 'info',
+                confirmButtonText: '¡Genial!',
+              });
+
+              // Set first login flag in localStorage to avoid showing the alert again
+              localStorage.setItem("firstLogin", "true");
+            }
           }
         },
         (error) => {

@@ -32,7 +32,7 @@ const LoginComponent = () => {
       navigate('/dashboard'); // Redirect to dashboard
     } catch (error) {
       console.error('Login error:', error);
-      setError(error.message); // Handle login errors
+      setError("Datos Erroneos"); // Handle login errors
     }
   };
 
